@@ -1,0 +1,13 @@
+{
+    "rootDir": "./dist/",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js)$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      ".*\\.d\\.ts$"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "testEnvironment": "node-debug"
+  }
+  

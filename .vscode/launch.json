@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Tests",
+            //"preLaunchTask": "buildDebugTests",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "-c",
+                "jest.debug.json",
+                "-i"
+            ],
+            "outFiles": [
+                "${workspaceRoot}/dist/**/*"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole",
+            "sourceMaps": true
+        }
+    ],
+    "compounds": []
+}

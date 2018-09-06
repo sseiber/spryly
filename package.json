@@ -1,0 +1,61 @@
+{
+  "name": "sprightly",
+  "version": "1.0.0",
+  "description": "Make Hapi with Typescript a little less painful",
+  "scripts": {
+    "prepare": "node ./scripts/prepublish.js",
+    "watch": "node ./node_modules/typescript/bin/tsc -p . -w",
+    "build": "node ./node_modules/typescript/bin/tsc -p .",
+    "test": "node ./node_modules/jest/bin/jest.js",
+    "tslint": "node ./node_modules/tslint/bin/tslint -p ./tsconfig.json",
+    "precommit": "npm test && npm run tslint && npm run prepare -- --hook"
+  },
+  "repository": {},
+  "keywords": [
+    "hapi",
+    "typescript",
+    "di",
+    "injection",
+    "async"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "philprice@gmail.com",
+  "contributors": [
+    "scott.seiber@outlook.com",
+    "jerryjo@microsoft.com"
+  ],
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/hapi": "^17.0.19",
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.9.4",
+    "@types/ws": "^6.0.1",
+    "husky": "^0.14.3",
+    "jest": "^23.5.0",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^23.1.4",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "call": "^5.0.1",
+    "hapi": "^17.5.4",
+    "lodash.get": "^4.4.2",
+    "reflect-metadata": "^0.1.12",
+    "ws": "^6.0.0"
+  },
+  "jest": {
+    "rootDir": "./src/",
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/../node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
+  }
+}

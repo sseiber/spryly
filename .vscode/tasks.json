@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "typescript",
+            "identifier": "ts-watch",
+            "isBackground": true,
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "panel": "new",
+                "reveal": "never"
+            },
+            "tsconfig": "tsconfig.json",
+            "option": "watch",
+            "problemMatcher": [
+                "$tsc-watch"
+            ]
+        },
+        {
+            "type": "npm",
+            "script": "build",
+            "label": "Typescript: Build",
+            "isBackground": true,
+            "group": "build",
+            "identifier": "buildDebugTests",
+            "presentation": {
+                "panel": "new",
+                "reveal": "never"
+            },
+            "problemMatcher": "$tsc"
+        },
+        {
+            "type": "npm",
+            "script": "test",
+            "label": "Run tests"
+        }
+    ]
+}
