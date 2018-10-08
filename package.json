@@ -1,6 +1,6 @@
 {
   "name": "@sseiber/sprightly",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Make Hapi with Typescript a little less painful",
   "scripts": {
     "prepare": "node ./scripts/prepublish.js",
@@ -36,7 +36,7 @@
     "rimraf": "^2.6.2",
     "ts-jest": "^23.1.4",
     "tslint": "^5.11.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.1.1"
   },
   "dependencies": {
     "call": "^5.0.1",
