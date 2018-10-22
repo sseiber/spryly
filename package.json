@@ -8,7 +8,9 @@
     "build": "node ./node_modules/typescript/bin/tsc -p .",
     "test": "node ./node_modules/jest/bin/jest.js",
     "tslint": "node ./node_modules/tslint/bin/tslint -p ./tsconfig.json",
-    "precommit": "npm test && npm run tslint && npm run prepare -- --hook"
+    "precommit": "npm test && npm run tslint && npm run prepare -- --hook",
+    "preversion": "npm test",
+    "postversion": "npm publish"
   },
   "repository": {},
   "keywords": [

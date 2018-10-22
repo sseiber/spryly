@@ -34,7 +34,8 @@
             false
         ],
         "max-classes-per-file": [
-            false
+            false,
+            1
         ],
         "trailing-comma": [
             true,
