@@ -1,6 +1,6 @@
 {
   "name": "@sseiber/sprightly",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Make Hapi with Typescript a little less painful",
   "scripts": {
     "prepare": "node ./scripts/prepublish.js",
