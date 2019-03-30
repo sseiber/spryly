@@ -37,10 +37,12 @@ export interface DiscoveryService {
 }
 
 export class StubDiscoveryService implements DiscoveryService {
-
+    // @ts-ignore (instance)
     public getDependencies(instance: any): DependencyRequest[] {
         return [];
     }
+
+    // @ts-ignore (instance)
     public getIdentifier(instance: any): DependencyIdentifier {
         throw new Error('Not implemented');
     }

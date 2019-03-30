@@ -1,2 +1,9 @@
+jest.debug.json
+tsconfig.json
+tslint.json
+.gitignore
+.npmignore
+
+.vscode
 node_modules
 scripts

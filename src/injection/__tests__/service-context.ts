@@ -13,7 +13,7 @@ it('should allow constructors to be added', () => {
     ctx.add(Y);
 });
 
-it('should can be composed', async() => {
+it('should can be composed', async () => {
 
     class X { }
     class Y { }

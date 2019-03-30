@@ -92,6 +92,7 @@ async function serverRegister(server: Server, options: ComposeOptions, serviceCo
     }
 }
 
+// @ts-ignore (options)
 function wrapClassRegister(instance: HapiPlugin<any>, options: any, nameHint: string[]): Plugin<any> {
     const result: Plugin<any> = {
         name: nameHint.join('-'),

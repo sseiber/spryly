@@ -3,7 +3,7 @@
     "tasks": [
         {
             "type": "typescript",
-            "identifier": "ts-watch",
+            "label": "ts-watch",
             "isBackground": true,
             "group": {
                 "kind": "build",
@@ -22,10 +22,9 @@
         {
             "type": "npm",
             "script": "build",
-            "label": "Typescript: Build",
+            "label": "buildDebugTests",
             "isBackground": true,
             "group": "build",
-            "identifier": "buildDebugTests",
             "presentation": {
                 "panel": "new",
                 "reveal": "never"

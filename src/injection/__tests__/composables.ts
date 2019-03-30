@@ -9,7 +9,7 @@ it('[Stub] should expose the same instance as created with', () => {
     expect(stub.instance).toEqual(testInstance);
 });
 
-it('[Stub] should compose with no errors', async() => {
+it('[Stub] should compose with no errors', async () => {
     const testInstance = { a: 'x ' };
     const stub = new StubComposable(testInstance);
 

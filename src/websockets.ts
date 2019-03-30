@@ -98,6 +98,7 @@ export function applyWebsocketDecorators(server: Server, target: any) {
 }
 
 export function websocket(options: WebSocketHandlerConfiguration) {
+    // @ts-ignore (propertyKey)
     return (target: any, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
         if (!target[WebsocketMetadataKey]) {
             target[WebsocketMetadataKey] = [];

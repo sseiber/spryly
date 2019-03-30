@@ -1,61 +1,66 @@
 {
-  "name": "sprightly",
-  "version": "1.0.0",
-  "description": "Make Hapi with Typescript a little less painful",
-  "scripts": {
-    "prepare": "node ./scripts/prepublish.js",
-    "watch": "node ./node_modules/typescript/bin/tsc -p . -w",
-    "build": "node ./node_modules/typescript/bin/tsc -p .",
-    "test": "node ./node_modules/jest/bin/jest.js",
-    "tslint": "node ./node_modules/tslint/bin/tslint -p ./tsconfig.json",
-    "precommit": "npm test && npm run tslint && npm run prepare -- --hook"
-  },
-  "repository": {},
-  "keywords": [
-    "hapi",
-    "typescript",
-    "di",
-    "injection",
-    "async"
-  ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "author": "philprice@gmail.com",
-  "contributors": [
-    "scott.seiber@outlook.com",
-    "jerryjo@microsoft.com"
-  ],
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "@types/hapi": "^17.0.19",
-    "@types/jest": "^23.3.1",
-    "@types/node": "^10.9.4",
-    "@types/ws": "^6.0.1",
-    "husky": "^0.14.3",
-    "jest": "^23.5.0",
-    "rimraf": "^2.6.2",
-    "ts-jest": "^23.1.4",
-    "tslint": "^5.11.0",
-    "typescript": "^3.0.3"
-  },
-  "dependencies": {
-    "call": "^5.0.1",
-    "hapi": "^17.5.4",
-    "lodash.get": "^4.4.2",
-    "reflect-metadata": "^0.1.12",
-    "ws": "^6.0.0"
-  },
-  "jest": {
-    "rootDir": "./src/",
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/../node_modules/ts-jest/preprocessor.js"
+    "name": "@sseiber/sprightly",
+    "version": "1.0.8",
+    "description": "Make Hapi with Typescript a little less painful",
+    "scripts": {
+        "prepare": "node ./scripts/prepublish.js",
+        "watch": "node ./node_modules/typescript/bin/tsc -p . -w",
+        "build": "node ./node_modules/typescript/bin/tsc -p .",
+        "test": "node ./node_modules/jest/bin/jest.js",
+        "tslint": "node ./node_modules/tslint/bin/tslint -p ./tsconfig.json",
+        "precommit": "npm test && npm run tslint && npm run prepare -- --hook",
+        "preversion": "npm test",
+        "postversion": "npm publish"
     },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ]
-  }
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sseiber/sprightly.git"
+    },
+    "keywords": [
+        "hapi",
+        "typescript",
+        "di",
+        "injection",
+        "async"
+    ],
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "author": "philprice@gmail.com",
+    "contributors": [
+        "scott.seiber@outlook.com",
+        "jerryjo@microsoft.com"
+    ],
+    "license": "MIT",
+    "devDependencies": {
+        "@types/hapi": "^18.0.1",
+        "@types/jest": "^24.0.11",
+        "@types/node": "^11.12.2",
+        "@types/ws": "^6.0.1",
+        "husky": "^1.3.1",
+        "jest": "^24.5.0",
+        "rimraf": "^2.6.3",
+        "ts-jest": "^24.0.1",
+        "tslint": "^5.14.0",
+        "typescript": "^3.4.1"
+    },
+    "dependencies": {
+        "call": "^5.0.3",
+        "hapi": "^18.1.0",
+        "lodash.get": "^4.4.2",
+        "reflect-metadata": "^0.1.13",
+        "ws": "^6.2.1"
+    },
+    "jest": {
+        "rootDir": "./src/",
+        "transform": {
+            ".(ts|tsx)": "ts-jest"
+        },
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "json"
+        ]
+    }
 }

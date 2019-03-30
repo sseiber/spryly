@@ -68,6 +68,7 @@ export class ServiceContext {
     protected services: ServiceMap = new ServiceMap();
 
     constructor(public options: ServiceContextOptions, private parent?: ServiceContext) {
+        // @ts-ignore (args)
         options.logger = options.logger || ((...args) => { /* no op */ });
         this.services.set(new DependencyIdentifier('$context'), new StubComposable(this));
     }

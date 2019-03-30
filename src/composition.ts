@@ -22,7 +22,7 @@ export interface ComposeManifest {
 }
 
 export async function compose(manifest: ComposeManifest, options: ComposeOptions): Promise<Server> {
-
+    // @ts-ignore (noop)
     options.logger = options.logger || ((noop) => { /* no-op */ });
 
     options.logger(['compose', 'info'], 'Composing server...');
