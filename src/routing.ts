@@ -13,6 +13,7 @@ export interface RouteOptions {
 }
 
 export function route(options: RouteOptions) {
+    // @ts-ignore (propertyKey)
     return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
         if (!target[RouteDecoratorKey]) {
             target[RouteDecoratorKey] = [];

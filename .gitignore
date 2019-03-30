@@ -86,3 +86,6 @@ storage
 
 # Test directory for docker dependent files during develop
 docker_temp
+
+# License scanning
+licenses.txt

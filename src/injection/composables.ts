@@ -21,6 +21,7 @@ export class StubComposable implements ComposableUnit {
     constructor(public instance: any) {
     }
 
+    // @ts-ignore (args)
     public compose(...args: any[]): Promise<Error[] | null> {
         return Promise.resolve(null);
     }

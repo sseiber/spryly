@@ -65,9 +65,10 @@
             true
         ],
         "prefer-template": true,
-        "space-before-function-paren": [
-            true,
-            "never"
+        "space-before-function-paren": [true,
+            {
+                "asyncArrow": "always"
+            }
         ]
     }
 }
