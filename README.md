@@ -1,4 +1,4 @@
-# Sprightly 
+# Spryly 
 Make Hapi with Typescript a little less painful. This is derived from the original "Chipper" library
 written by @pprice.
 
@@ -13,7 +13,7 @@ written by @pprice.
 ## Example index.ts
 ```
     import { manifest } from './manifest';
-    import { compose, ComposeOptions } from 'sprightly';
+    import { compose, ComposeOptions } from 'spryly';
 
     const composeOptions: ComposeOptions = {
         relativeTo: __dirname,
@@ -50,7 +50,7 @@ written by @pprice.
 ## Examples
 ### API (Route) Example
 ```
-    import { inject, RoutePlugin, route } from 'sprightly';
+    import { inject, RoutePlugin, route } from 'spryly';
     import { Request, ResponseToolkit } from 'hapi';
     import { AuthService } from '../services/auth';
     import * as Boom from 'boom';
@@ -86,7 +86,7 @@ written by @pprice.
 ```
 ### Plugin Example
 ```
-import { HapiPlugin, inject } from 'sprightly';
+import { HapiPlugin, inject } from 'spryly';
 import { Server } from 'hapi';
 import { LoggingService } from '../services/logging';
 import { AuthService } from '../services/auth';
@@ -120,7 +120,7 @@ export class AuthPlugin implements HapiPlugin {
 ```
 ### Service Example
 ```
-import { service, inject } from 'sprightly';
+import { service, inject } from 'spryly';
 import { Request, ResponseToolkit } from 'hapi';
 import { LoggingService } from './logging';
 import { randomBytes as cryptoRandomBytes } from 'crypto';
@@ -194,7 +194,7 @@ In order to log before the Hapi server is completely composed (e.g. with `Good` 
 ```
 It also requires your logging service implementation to look something like this:
 ```
-    import { service, inject } from 'sprightly';
+    import { service, inject } from 'spryly';
     import { Server } from 'hapi';
 
     @service('logger')
