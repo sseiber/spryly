@@ -1,5 +1,5 @@
 {
-    "name": "sprightly",
+    "name": "spryly",
     "version": "1.0.12",
     "description": "Make Hapi with Typescript a little less painful",
     "scripts": {
@@ -14,7 +14,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/sseiber/sprightly.git"
+        "url": "https://github.com/sseiber/spryly.git"
     },
     "keywords": [
         "hapi",
