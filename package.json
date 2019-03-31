@@ -1,6 +1,6 @@
 {
-    "name": "@sseiber/sprightly",
-    "version": "1.0.10",
+    "name": "sprightly",
+    "version": "1.0.11",
     "description": "Make Hapi with Typescript a little less painful",
     "scripts": {
         "prepare": "node ./scripts/prepublish.js",
@@ -23,7 +23,10 @@
         "injection",
         "async"
     ],
-    "main": "dist/index.js",
+    "main": "./dist/index.js",
+    "files": [
+        "/dist"
+    ],
     "types": "dist/index.d.ts",
     "author": "philprice@gmail.com",
     "contributors": [
