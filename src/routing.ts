@@ -1,4 +1,4 @@
-import { Server } from 'hapi';
+import { Server } from '@hapi/hapi';
 import { HapiPlugin } from './registration';
 import { applyWebsocketDecorators } from './websockets';
 import * as _get from 'lodash.get';
