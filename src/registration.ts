@@ -1,4 +1,4 @@
-import { Server, Plugin } from 'hapi';
+import { Server, Plugin } from '@hapi/hapi';
 import { pathToNameHint, resolveImport, isClass, ComposeOptions } from './composition';
 import { ServiceContext } from './injection';
 

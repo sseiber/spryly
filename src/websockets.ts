@@ -1,7 +1,7 @@
-import { Server } from 'hapi';
+import { Server } from '@hapi/hapi';
 import { IncomingHttpHeaders, Server as serverListener } from 'http';
 import * as url from 'url';
-import * as Call from 'call';
+import * as Call from '@hapi/call';
 import * as ws from 'ws';
 
 const WebsocketMetadataKey = Symbol('sockets');

@@ -51,7 +51,7 @@ written by @pprice.
 ### API (Route) Example
 ```
     import { inject, RoutePlugin, route } from 'spryly';
-    import { Request, ResponseToolkit } from 'hapi';
+    import { Request, ResponseToolkit } from '@hapi/hapi';
     import { AuthService } from '../services/auth';
     import * as Boom from 'boom';
 
@@ -87,7 +87,7 @@ written by @pprice.
 ### Plugin Example
 ```
 import { HapiPlugin, inject } from 'spryly';
-import { Server } from 'hapi';
+import { Server } from '@hapi/hapi';
 import { LoggingService } from '../services/logging';
 import { AuthService } from '../services/auth';
 import * as HapiAuthJwt from 'hapi-auth-jwt2';
@@ -121,7 +121,7 @@ export class AuthPlugin implements HapiPlugin {
 ### Service Example
 ```
 import { service, inject } from 'spryly';
-import { Request, ResponseToolkit } from 'hapi';
+import { Request, ResponseToolkit } from '@hapi/hapi';
 import { LoggingService } from './logging';
 import { randomBytes as cryptoRandomBytes } from 'crypto';
 import { sign as jwtSign } from 'jsonwebtoken';
@@ -195,7 +195,7 @@ In order to log before the Hapi server is completely composed (e.g. with `Good` 
 It also requires your logging service implementation to look something like this:
 ```
     import { service, inject } from 'spryly';
-    import { Server } from 'hapi';
+    import { Server } from '@hapi/hapi';
 
     @service('logger')
     export class LoggingService {

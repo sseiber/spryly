@@ -1,5 +1,5 @@
 // tslint:disable-next-line:ordered-imports
-import { Server, ServerOptions } from 'hapi';
+import { Server, ServerOptions } from '@hapi/hapi';
 import { join, resolve } from 'path';
 import { process as process_registration, ManifestPlugin } from './registration';
 import { process as process_services } from './services';
