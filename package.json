@@ -1,6 +1,6 @@
 {
     "name": "spryly",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "description": "Make Hapi with Typescript a little less painful",
     "scripts": {
         "prepare": "node ./scripts/prepublish.js",
@@ -35,7 +35,7 @@
     ],
     "license": "MIT",
     "devDependencies": {
-        "@types/hapi": "^18.0.2",
+        "@types/hapi__hapi": "^18.2.5",
         "@types/jest": "^24.0.18",
         "@types/node": "^12.7.11",
         "@types/ws": "^6.0.3",
