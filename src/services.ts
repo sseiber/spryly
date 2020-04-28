@@ -2,7 +2,6 @@ import { ComposeOptions, isClass, resolveImport } from './composition';
 import { DefaultDiscoveryService, StubDiscoveryService, ServiceContext, StubServiceContext } from './injection';
 
 export async function process(item: any, opts: ComposeOptions, staticServices?: Map<string, any>): Promise<ServiceContext> {
-
     const staticContext = new StubServiceContext({
         discovery: new StubDiscoveryService(),
         logger: opts.logger
@@ -18,7 +17,9 @@ export async function process(item: any, opts: ComposeOptions, staticServices?: 
     }, staticContext);
 
     const serviceContext = collect(item, opts, context);
+
     await serviceContext.compose();
+
     return serviceContext;
 }
 
@@ -41,5 +42,6 @@ function collect(item: any, opts: ComposeOptions, context: ServiceContext): Serv
     }
 
     context.add(item);
+
     return context;
 }

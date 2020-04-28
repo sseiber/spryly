@@ -5,10 +5,12 @@ import { process as process_registration, ManifestPlugin } from './registration'
 import { process as process_services } from './services';
 
 export type ManifestService = string;
+export type CustomLogger = (tags: string[], message: string) => void;
 
 export interface ComposeOptions {
     relativeTo?: string;
-    logger?: (tags: any, message: any) => void;
+    logCompose: boolean;
+    logger?: CustomLogger;
 }
 
 export interface ServerComposeOptions {
@@ -22,12 +24,37 @@ export interface ComposeManifest {
 }
 
 export async function compose(manifest: ComposeManifest, options: ComposeOptions): Promise<Server> {
-    // @ts-ignore (noop)
-    options.logger = options.logger || ((noop) => { /* no-op */ });
+    const server = new Server(manifest.server);
+
+    if (options.logCompose) {
+        if (typeof options.logger === 'function') {
+            options.logger = options.logger;
+        }
+        else {
+            await server.register({
+                plugin: await import('hapi-pino'),
+                options: {
+                    prettyPrint: {
+                        colorize: true,
+                        messageFormat: '[{tags}] {data}',
+                        translateTime: 'SYS:yyyy-mm-dd"T"HH:MM:sso',
+                        ignore: 'pid,hostname,tags,data'
+                    }
+                }
+            });
+
+            options.logger = (tags: string[], message: string) => {
+                server.log(tags, message);
+            };
+        }
+    }
+    else {
+        // @ts-ignore
+        options.logger = (tags: string[], message: string) => { /**/ };
+    }
 
     options.logger(['compose', 'info'], 'Composing server...');
 
-    const server = new Server(manifest.server);
     const statics = new Map<string, any>([['$server', server]]);
 
     options.logger(['compose', 'info'], 'Processing services...');
@@ -38,7 +65,6 @@ export async function compose(manifest: ComposeManifest, options: ComposeOptions
 
     options.logger(['compose', 'info'], 'Composition complete');
 
-    // tslint:disable-next-line:no-string-literal
     (server.settings.app as any).compositionDone = true;
 
     return server;
@@ -50,7 +76,7 @@ export function resolveImport(instance: any, options: ComposeOptions, nameHint?:
     if (typeof instance === 'string') {
         options.logger(['compose', 'info'], `Requiring module ${instance}`);
         nameHint = pathToNameHint(instance);
-        instance = require_relative(instance, options);
+        instance = requireRelative(instance, options);
     }
 
     if (instance && instance.default) {
@@ -72,7 +98,7 @@ export function isClass(func: any): boolean {
     return typeof func === 'function' && /^class\s/.test(Function.prototype.toString.call(func));
 }
 
-function require_relative(id: string, options: ComposeOptions) {
+function requireRelative(id: string, options: ComposeOptions) {
     if (id.startsWith('./') && options.relativeTo) {
         id = join(options.relativeTo, id);
     }

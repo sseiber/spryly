@@ -34,7 +34,7 @@ export class WebSocketRouter {
 
     constructor(listener: serverListener) {
         this.wss = new ws.Server({ server: listener, clientTracking: false });
-        this.wss.on('connection', this.on_client_connect.bind(this));
+        this.wss.on('connection', this.onClientConnect.bind(this));
         this.router = new Call.Router();
     }
 
@@ -46,7 +46,7 @@ export class WebSocketRouter {
         });
     }
 
-    private on_client_connect(connection: ws, upgradeRequest: any) {
+    private onClientConnect(connection: ws, upgradeRequest: any) {
         const match: RouteMatch = this.router.route('ws', upgradeRequest.url);
 
         if (match instanceof Error) {
