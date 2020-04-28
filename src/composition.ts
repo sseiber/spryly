@@ -53,17 +53,17 @@ export async function compose(manifest: ComposeManifest, options: ComposeOptions
         options.logger = (tags: string[], message: string) => { /**/ };
     }
 
-    options.logger(['compose', 'info'], 'Composing server...');
+    options.logger(['spryly', 'info'], 'Composing server...');
 
     const statics = new Map<string, any>([['$server', server]]);
 
-    options.logger(['compose', 'info'], 'Processing services...');
+    options.logger(['spryly', 'info'], 'Processing services...');
     const serviceContext = await process_services(manifest.services, options, statics);
 
-    options.logger(['compose', 'info'], 'Processing plugins...');
+    options.logger(['spryly', 'info'], 'Processing plugins...');
     await process_registration(server, manifest.plugins, options, serviceContext);
 
-    options.logger(['compose', 'info'], 'Composition complete');
+    options.logger(['spryly', 'info'], 'Composition complete');
 
     (server.settings.app as any).compositionDone = true;
 
@@ -74,7 +74,7 @@ export function resolveImport(instance: any, options: ComposeOptions, nameHint?:
     nameHint = nameHint || [];
 
     if (typeof instance === 'string') {
-        options.logger(['compose', 'info'], `Requiring module ${instance}`);
+        options.logger(['spryly', 'info'], `Requiring module ${instance}`);
         nameHint = pathToNameHint(instance);
         instance = requireRelative(instance, options);
     }

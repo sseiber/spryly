@@ -102,7 +102,7 @@ export class ServiceContext {
 
         this.composed = false;
 
-        this.options.logger(['service-context', 'info'], `Discovered service '${identifier}'`);
+        this.options.logger(['spryly', 'info'], `Discovered service '${identifier}'`);
 
         // TODO: Constructor depedencies
         const serviceInstance = new ctor();
@@ -114,11 +114,11 @@ export class ServiceContext {
     public async compose(): Promise<void> {
 
         if (this.composed) {
-            this.options.logger(['service-context', 'info'], 'Skipping composition of service context, already fully composed');
+            this.options.logger(['spryly', 'info'], 'Service context already fully composed - skipping...');
             return;
         }
 
-        this.options.logger(['service-context', 'info'], 'Composing service context...');
+        this.options.logger(['spryly', 'info'], 'Composing service context...');
         const order = this.getInitializationOrder();
 
         const composer = (name: string): Promise<Error[] | null> => {
@@ -126,7 +126,7 @@ export class ServiceContext {
 
             if (!composable) {
                 throw new Error('yolo');
-                // this.options.logger(['service-context', 'info'], `Failed to find service '${name}', ignoring...`);
+                // this.options.logger(['spryly', 'info'], `Failed to find service '${name}', ignoring...`);
                 // return Promise.resolve<any>(null);
             }
 
@@ -138,14 +138,14 @@ export class ServiceContext {
             return composable.compose(this.getServiceInstance.bind(this));
         };
 
-        this.options.logger(['service-context', 'info'], `Composing top level services [${order.async.join(', ')}]...`);
+        this.options.logger(['spryly', 'info'], `Composing top level services [${order.async.join(', ')}]...`);
         const errors: Error[] = [];
         // First do service with no inbound dependencies, we can do these in parallell
         const asyncErrors = await Promise.all(order.async.map(name => composer(name)));
         asyncErrors.forEach(syncError => syncError ? errors.push(...syncError) : null);
 
         // The rest of the services happen in order as they have in bound dependencies
-        this.options.logger(['service-context', 'info'], `Composing downstream services [${order.sync.join(', ')}]...`);
+        this.options.logger(['spryly', 'info'], `Composing downstream services [${order.sync.join(', ')}]...`);
         for (const serviceName of order.sync) {
             const composeErrors = await composer(serviceName);
             if (composeErrors) {
@@ -157,7 +157,7 @@ export class ServiceContext {
             throw new CompositionError(`Failed to compose service context`, errors);
         }
 
-        this.options.logger(['service-context', 'info'], 'Composition of services completed');
+        this.options.logger(['spryly', 'info'], 'Composition of services completed');
         this.composed = true;
     }
 

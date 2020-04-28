@@ -12,26 +12,48 @@ written by @pprice.
 
 ## Example index.ts
 ```
-    import { manifest } from './manifest';
+    // The manifest is an object that specifies the server port and the order
+    // of service and plugin composition. It has the following form:
+    // {
+    //     server: {
+    //         port: PORT,
+    //         app: {
+    //             // server.settings.app settings go here...
+    //         } as any
+    //     },
+    //     services: [ // compose all the services
+    //         './services'
+    //     ],
+    //     plugins: [ // compose all the plugins
+    //         ...[
+    //             {
+    //                 plugin: '@hapi/inert'
+    //             }
+    //         ],
+    //         ...[
+    //             {
+    //                 plugin: './plugins'
+    //             }
+    //         ],
+    //         ...[
+    //             {
+    //                 plugin: './apis'
+    //             }
+    //         ]
+    //     ]
+    // }
+
+    import { manifest } from './manifest'; // import something like above
     import { compose, ComposeOptions } from 'spryly';
 
     const composeOptions: ComposeOptions = {
         relativeTo: __dirname,
-        logger: (t, m) => {
-            const tags = ((t && Array.isArray(t)) ? `[opt,${t.join(',')}]` : '[opt]');
-
-            // tslint:disable-next-line:no-console
-            console.log(`[${new Date().toTimeString()}] ${tags} ${m}`);
-        }
+        logCompose: true // auto-import hapi-pino logger
     };
 
     async function start() {
-        const config = {
-            customManifestOptions: somevalue
-        };
-
         try {
-            const server = await compose(manifest(config), composeOptions);
+            const server = await compose(manifest, composeOptions);
 
             server.log(['startup', 'info'], `🚀 Starting HAPI server instance...`);
 
@@ -51,11 +73,15 @@ written by @pprice.
 ### API (Route) Example
 ```
     import { inject, RoutePlugin, route } from 'spryly';
+    import { Server } from '@hapi/hapi';
     import { Request, ResponseToolkit } from '@hapi/hapi';
     import { AuthService } from '../services/auth';
     import * as Boom from 'boom';
 
     export class AuthRoutes extends RoutePlugin {
+        @inject('$server')
+        private server: Server;
+
         @inject('auth')
         private auth: AuthService;
 
@@ -86,139 +112,94 @@ written by @pprice.
 ```
 ### Plugin Example
 ```
-import { HapiPlugin, inject } from 'spryly';
-import { Server } from '@hapi/hapi';
-import { LoggingService } from '../services/logging';
-import { AuthService } from '../services/auth';
-import * as HapiAuthJwt from 'hapi-auth-jwt2';
-
-export class AuthPlugin implements HapiPlugin {
-    @inject('logger')
-    private logger: LoggingService;
-
-    @inject('auth')
-    private auth: AuthService;
-
-    public async register(server: Server) {
-        try {
-            await server.register([HapiAuthJwt]);
-
-            server.auth.strategy(
-                'sample-jwt',
-                'jwt',
-                {
-                    key: this.auth.secret,
-                    validate: this.auth.validateRequest.bind(this.auth),
-                    verifyOptions: { issuer: this.auth.issuer }
-                });
-        }
-        catch (error) {
-            this.logger.log(['AuthPlugin', 'error'], 'Failed to register auth strategies');
-        }
-    }
-}
-```
-### Service Example
-```
-import { service, inject } from 'spryly';
-import { Request, ResponseToolkit } from '@hapi/hapi';
-import { LoggingService } from './logging';
-import { randomBytes as cryptoRandomBytes } from 'crypto';
-import { sign as jwtSign } from 'jsonwebtoken';
-import { v4 as uuidV4 } from 'uuid';
-
-const SECRET_LENGTH = 64;
-
-@service('auth')
-export class AuthService {
-    @inject('logger')
-    private logger: LoggingService;
-
-    private secretInternal;
-    private issuerInternal;
-
-    public get secret() {
-        return this.secretInternal;
-    }
-
-    public get issuer() {
-        return this.issuerInternal;
-    }
-
-    public async init() {
-        this.logger.log(['AuthService', 'info'], 'initialize');
-    }
-
-    public async generateToken(scope) {
-        const id = uuidV4();
-        const arrayOfScope = Array.isArray(scope) ? scope : [scope];
-        const payload = { scope: arrayOfScope, id };
-
-        const options = {
-            issuer: this.issuerInternal
-        };
-
-        const token = await jwtSign(payload, this.secretInternal, options);
-
-        return { token, id };
-    }
-
-    // @ts-ignore (request, h)
-    public async validateRequest(decoded, request: Request, h: ResponseToolkit) {
-        // TODO: validate incoming request
-
-        // Ensure there are ids and scopes
-        if (!decoded.id || !decoded.scope || !Array.isArray(decoded.scope)) {
-            return {
-                isValid: false
-            };
-        }
-
-        // Build the "profile", we really just need to copy the scopes over so hapi can later validate these
-        return {
-            isValid: true,
-            credentials: { scope: decoded.scope }
-        };
-    }
-}
-```
-### Logger options
-In order to log before the Hapi server is completely composed (e.g. with `Good` and `Good-Console`) we declare a `ComposeOptions` to use during the server compose step to keep custom info. One of those things was a logger callback (although it really just provides stdout to the console until the real logger is setup).
-```
-    logger: (t, m) => {
-        const tags = ((t && Array.isArray(t)) ? `[opt,${t.join(',')}]` : '[opt]');
-
-        // tslint:disable-next-line:no-console
-        console.log(`[${new Date().toTimeString()}] ${tags} ${m}`);
-    }
-```
-It also requires your logging service implementation to look something like this:
-```
-    import { service, inject } from 'spryly';
+    import { HapiPlugin, inject } from 'spryly';
     import { Server } from '@hapi/hapi';
+    import { AuthService } from '../services/auth';
+    import * as HapiAuthJwt from 'hapi-auth-jwt2';
 
-    @service('logger')
-    export class LoggingService {
+    export class AuthPlugin implements HapiPlugin {
         @inject('$server')
         private server: Server;
 
-        public async init(): Promise<void> {
-            // tslint:disable-next-line:no-console
-            console.log(`[${new Date().toTimeString()}] [LoggingService, info] initialize`);
+        @inject('auth')
+        private auth: AuthService;
+
+        public async register(server: Server) {
+            try {
+                await server.register([HapiAuthJwt]);
+
+                server.auth.strategy(
+                    'sample-jwt',
+                    'jwt',
+                    {
+                        key: this.auth.secret,
+                        validate: this.auth.validateRequest.bind(this.auth),
+                        verifyOptions: { issuer: this.auth.issuer }
+                    });
+            }
+            catch (error) {
+                this.server.log(['AuthPlugin', 'error'], 'Failed to register auth strategies');
+            }
+        }
+    }
+```
+### Service Example
+```
+    import { service, inject } from 'spryly';
+    import { Request, ResponseToolkit } from '@hapi/hapi';
+    import { randomBytes as cryptoRandomBytes } from 'crypto';
+    import { sign as jwtSign } from 'jsonwebtoken';
+    import { v4 as uuidV4 } from 'uuid';
+
+    const SECRET_LENGTH = 64;
+
+    @service('auth')
+    export class AuthService {
+        private secretInternal;
+        private issuerInternal;
+
+        public get secret() {
+            return this.secretInternal;
         }
 
-        // This will use the real composed logger specified in your manifest, or the temporary logger
-        // setup through compose options. The compose step will set the compositionDone flag on the server.
-        public log(tags: any, message: any) {
-            const tagsMessage = (tags && Array.isArray(tags)) ? `[${tags.join(', ')}]` : '[]';
+        public get issuer() {
+            return this.issuerInternal;
+        }
 
-            if (!(this.server.settings.app as any).compositionDone) {
-                // tslint:disable-next-line:no-console
-                console.log(`[${new Date().toTimeString()}] [${tagsMessage}] ${message}`);
+        public async init() {
+            this.server.log(['AuthService', 'info'], 'initialize');
+        }
+
+        public async generateToken(scope) {
+            const id = uuidV4();
+            const arrayOfScope = Array.isArray(scope) ? scope : [scope];
+            const payload = { scope: arrayOfScope, id };
+
+            const options = {
+                issuer: this.issuerInternal
+            };
+
+            const token = await jwtSign(payload, this.secretInternal, options);
+
+            return { token, id };
+        }
+
+        // @ts-ignore (request, h)
+        public async validateRequest(decoded, request: Request, h: ResponseToolkit) {
+            // TODO: validate incoming request
+
+            // Ensure there are ids and scopes
+            if (!decoded.id || !decoded.scope || !Array.isArray(decoded.scope)) {
+                return {
+                    isValid: false
+                };
             }
-            else {
-                this.server.log(tagsMessage, message);
-            }
+
+            // Build the "profile", we really just need to copy the scopes over so hapi can later validate these
+            return {
+                isValid: true,
+                credentials: { scope: decoded.scope }
+            };
         }
     }
 ```
