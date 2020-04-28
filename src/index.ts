@@ -1,6 +1,6 @@
 // Export items
 
-export { HapiPlugin, AsyncPluginFunction } from './registration';
+export { HapiPlugin, PluginRegistration, AsyncPluginFunction } from './registration';
 export { ComposeOptions, ComposeManifest, compose } from './composition';
 export { route, RoutePlugin, RouteOptions } from './routing';
 export { websocket, WebSocketRequest, WebSocketHandlerConfiguration } from './websockets';

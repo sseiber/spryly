@@ -39,7 +39,7 @@ export async function compose(manifest: ComposeManifest, options: ComposeOptions
     options.logger(['compose', 'info'], 'Composition complete');
 
     // tslint:disable-next-line:no-string-literal
-    server.settings.app['compositionDone'] = true;
+    (server.settings.app as any).compositionDone = true;
 
     return server;
 }
