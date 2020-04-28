@@ -1,7 +1,6 @@
 import { Server } from '@hapi/hapi';
 import { HapiPlugin } from './registration';
 import { applyWebsocketDecorators } from './websockets';
-import * as _get from 'lodash.get';
 
 const RouteDecoratorKey = Symbol('route');
 export type RouteMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'get' | 'post' | 'put' | 'delete' | 'head' | 'options';
@@ -38,7 +37,7 @@ async function applyRouteDecorators(server: Server, target: any) {
     }
 
     const routes = decorations.map(decoration => {
-        let handler = _get(decoration, 'options.options.handler');
+        let handler = decoration?.options?.options?.handler;
 
         if (handler) {
             delete decoration.options.options.handler;
