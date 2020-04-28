@@ -1,6 +1,6 @@
 {
     "name": "spryly",
-    "version": "1.0.26",
+    "version": "1.0.27",
     "description": "Make Hapi with Typescript a little less painful",
     "scripts": {
         "prepare": "node ./scripts/prepublish.js",
