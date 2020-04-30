@@ -69,31 +69,29 @@ async function serverRegister(server: Server, options: ComposeOptions, serviceCo
     nameHint = nameHint || [];
     if (isClass(registration.plugin)) {
         nameHint.push(`@${registration.plugin.name}`);
-        options.logger(['registration', 'info'], `Awaiting class registration for '${nameHint.join('-')}'`);
+
+        options.logger(['spryly', 'info'], `Registering plugin class: ${nameHint.join('-')}`);
+
         registration.plugin = new registration.plugin(server);
         await serviceContext.resolve(registration.plugin);
-        await server.register(wrapClassRegister(registration.plugin, registration.options, nameHint));
-    }
-    else if (isPluginRegistrationFunction(registration.plugin)) {
-        options.logger(['registration', 'info'], 'Awaiting promise for old-style function registration');
-        await server.register(registration.plugin);
+        await server.register(wrapPluginRegistrationAsClass(registration.plugin, registration.options, nameHint));
     }
     else if (isPluginRegistrationObject(registration.plugin)) {
-        // Assume old style registration object
-        options.logger(['registration', 'info'], 'Awaiting promise for old-style object registration');
+        options.logger(['spryly', 'info'], `Registering plugin module: ${registration.plugin.name || registration.plugin.pkg?.name}`);
+
         await server.register({ plugin: registration.plugin, options: registration.options });
     }
-    else if (registration.plugin instanceof Function) {
-        options.logger(['registration', 'info'], 'Awaiting promise for function style registration');
+    else if (isPluginRegistrationFunction(registration.plugin)) {
+        options.logger(['spryly', 'info'], `Registering plugin function: ${nameHint.join('-')}`);
 
         const plugin = registration.plugin(server);
         await serviceContext.resolve(plugin);
-        await server.register(wrapClassRegister(plugin, registration.options, nameHint));
+        await server.register(wrapPluginRegistrationAsClass(plugin, registration.options, nameHint));
     }
 }
 
 // @ts-ignore (options)
-function wrapClassRegister(instance: HapiPlugin<any>, options: any, nameHint: string[]): Plugin<any> {
+function wrapPluginRegistrationAsClass(instance: HapiPlugin<any>, options: any, nameHint: string[]): Plugin<any> {
     const result: Plugin<any> = {
         name: nameHint.join('-'),
         register: (server, opts) => {
