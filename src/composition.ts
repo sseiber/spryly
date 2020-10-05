@@ -44,16 +44,18 @@ export async function compose(manifest: ComposeManifest, options?: ComposeOption
     else {
         await server.register({
             plugin: await import('hapi-pino'),
-            options: {
-                prettyPrint: options?.logCompose === true
-                    ? {
+            options: options?.logCompose === true
+                ? {
+                    prettyPrint: {
                         colorize: true,
                         messageFormat: '[{tags}] {data}',
                         translateTime: 'SYS:yyyy-mm-dd"T"HH:MM:sso',
-                        ignore: 'pid,hostname,tags,data,req,res,responseTime'
+                        ignore: 'pid,hostname,tags,data'
                     }
-                    : options?.logCompose || false
-            }
+                }
+                : options?.logCompose || {
+                    prettyPrint: false
+                }
         });
     }
 
