@@ -15,7 +15,7 @@ export interface HapiPlugin<TRegistrationOptions = {}> {
     register(server: Server, options?: TRegistrationOptions): Promise<void>;
 }
 
-export async function process(server: Server, item: any, options: ComposeOptions, serviceContext: ServiceContext, nameHint?: string[]) {
+export async function process(server: Server, item: any, options: ComposeOptions, serviceContext: ServiceContext, nameHint?: string[]): Promise<void> {
 
     if (Array.isArray(item)) {
         for (const child of item) {
@@ -34,7 +34,8 @@ export async function process(server: Server, item: any, options: ComposeOptions
         registration = {
             plugin: item
         };
-    } else {
+    }
+    else {
         registration = item;
     }
 

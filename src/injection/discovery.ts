@@ -4,11 +4,11 @@ import { InjectMetadataKey, ServiceMetadataKey } from './decorators';
 export class DependencyIdentifier {
     constructor(public identifier: string | symbol, public instanceIdentifier?: string) { }
 
-    public debugToString() {
+    public debugToString(): string {
         return this.toString() || '<null>';
     }
 
-    public debugInstanceToString() {
+    public debugInstanceToString(): string {
         return this.instanceIdentifier || '<unknown>';
     }
 

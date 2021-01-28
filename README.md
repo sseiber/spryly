@@ -62,7 +62,7 @@ written by @pprice.
             server.log(['startup', 'info'], `✅ Server started`);
         }
         catch (error) {
-            // tslint:disable-next-line:no-console
+            // eslint-disable-next-line no-console
             console.log(`['startup', 'error'], 👹 Error starting server: ${error.message}`);
         }
     }

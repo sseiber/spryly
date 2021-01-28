@@ -38,7 +38,7 @@ export class WebSocketRouter {
         this.router = new Call.Router();
     }
 
-    public route(routes: WebSocketRoute | WebSocketRoute[]) {
+    public route(routes: WebSocketRoute | WebSocketRoute[]): void {
         routes = Array.isArray(routes) ? routes : [routes];
 
         routes.forEach((route: WebSocketRoute) => {
@@ -70,20 +70,20 @@ export class WebSocketRouter {
     }
 }
 
-export function applyWebsocketDecorators(server: Server, target: any) {
+export function applyWebsocketDecorators(server: Server, target: any): any {
     const decorations: any[] = target[WebsocketMetadataKey];
 
     if (!decorations) {
         return;
     }
 
-    // tslint:disable:no-string-literal
+    // eslint-disable:no-string-literal
     if (!server.settings.app['ws_router']) {
         server.settings.app['ws_router'] = new WebSocketRouter(server.listener);
     }
 
     const router: WebSocketRouter = server.settings.app['ws_router'];
-    // tslint:enable:no-string-literal
+    // esline-enable:no-string-literal
 
     const routes = decorations.map(decoration => {
         const options = {
@@ -97,7 +97,7 @@ export function applyWebsocketDecorators(server: Server, target: any) {
     router.route(routes);
 }
 
-export function websocket(options: WebSocketHandlerConfiguration) {
+export function websocket(options: WebSocketHandlerConfiguration): any {
     // @ts-ignore (propertyKey)
     return (target: any, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
         if (!target[WebsocketMetadataKey]) {

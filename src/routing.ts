@@ -11,7 +11,7 @@ export interface RouteOptions {
     options?: any;
 }
 
-export function route(options: RouteOptions) {
+export function route(options: RouteOptions): any {
     // @ts-ignore (propertyKey)
     return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
         if (!target[RouteDecoratorKey]) {

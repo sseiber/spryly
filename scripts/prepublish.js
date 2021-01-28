@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+// eslint-disable no-console
 const path = require('path');
 const rimraf = require('rimraf');
 const childProcess = require('child_process');
@@ -62,4 +62,4 @@ if (!isHook) {
     console.log('Removing tests');
     rimraf.sync(path.resolve(outFolder, 'test'));
 }
-// tslint:enable:no-console
+// eslint-enable no-console

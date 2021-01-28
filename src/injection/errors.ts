@@ -1,6 +1,6 @@
 export class CompositeError extends Error {
 
-    public static formatMessage(message, errors?: Error[]): string {
+    public static formatMessage(message: string, errors?: Error[]): string {
         let buff: string = message;
 
         if (errors && errors.length > 0) {
@@ -25,7 +25,7 @@ export class CompositeError extends Error {
         return buff;
     }
 
-    constructor(message, public errors?: Error[]) {
+    constructor(message: string, public errors?: Error[]) {
         super(CompositeError.formatMessage(message, errors));
         this.errors = errors;
     }

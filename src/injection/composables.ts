@@ -15,7 +15,7 @@ export interface ComposableUnit {
 }
 
 export class StubComposable implements ComposableUnit {
-    public composed: boolean = true;
+    public composed = true;
     public dependencyRequests: DependencyRequest[] = [];
 
     constructor(public instance: any) {

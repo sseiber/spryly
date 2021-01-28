@@ -1,4 +1,4 @@
-// tslint:disable-next-line:ordered-imports
+// eslint-disable-next-line:ordered-imports
 import { Server, ServerOptions } from '@hapi/hapi';
 import { join as pathJoin, resolve as pathResolve } from 'path';
 import { process as process_registration, ManifestPlugin } from './registration';

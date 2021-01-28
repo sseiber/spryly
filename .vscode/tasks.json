@@ -21,6 +21,15 @@
         },
         {
             "type": "npm",
+            "script": "eslint",
+            "problemMatcher": [
+                "$eslint-stylish"
+            ],
+            "label": "npm: lint",
+            "detail": "eslint -c .eslintrc.json --ext .ts ."
+        },
+        {
+            "type": "npm",
             "script": "build",
             "label": "buildDebugTests",
             "isBackground": true,

@@ -7,8 +7,8 @@
         "watch": "node ./node_modules/typescript/bin/tsc -p . -w",
         "build": "node ./node_modules/typescript/bin/tsc -p .",
         "test": "node ./node_modules/jest/bin/jest.js",
-        "tslint": "node ./node_modules/tslint/bin/tslint -p ./tsconfig.json",
-        "precommit": "npm test && npm run tslint && npm run prepare -- --hook",
+        "eslint": "eslint -c .eslintrc.json --ext .ts ./src",
+        "precommit": "npm test && npm run eslint && npm run prepare -- --hook",
         "preversion": "npm test",
         "postversion": "npm publish"
     },
@@ -39,10 +39,14 @@
         "@types/jest": "^26.0.14",
         "@types/node": "^14.11.2",
         "@types/ws": "^7.2.7",
+        "@typescript-eslint/eslint-plugin": "^4.12.0",
+        "@typescript-eslint/parser": "^4.12.0",
+        "eslint": "^7.17.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jsdoc": "^30.7.13",
         "jest": "^26.4.2",
         "rimraf": "^3.0.2",
         "ts-jest": "^26.4.1",
-        "tslint": "^5.20.1",
         "typescript": "^4.0.3"
     },
     "dependencies": {

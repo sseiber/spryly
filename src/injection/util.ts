@@ -1,2 +1,2 @@
 // @ts-ignore (args)
-export function NoOp(...args: any[]) { /*no-op */ }
+export function NoOp(...args: any[]): void { /* no-op */ }

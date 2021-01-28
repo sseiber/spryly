@@ -46,12 +46,12 @@ export class ServiceMap {
         return this.identifierMap.get(key.identifier);
     }
 
-    public set(key: DependencyIdentifier, value: ComposableUnit) {
+    public set(key: DependencyIdentifier, value: ComposableUnit): void {
         this.map.set(key.identifier, value);
         this.identifierMap.set(key.identifier, key);
     }
 
-    public forEach(callback: (value, key) => void) {
+    public forEach(callback: (value, key) => void): void {
         this.identifierMap.forEach((identifier, key) => {
             const value = this.map.get(key);
             callback(value, identifier);
@@ -64,7 +64,7 @@ export class ServiceMap {
 }
 
 export class ServiceContext {
-    public composed: boolean = false;
+    public composed = false;
     protected services: ServiceMap = new ServiceMap();
 
     constructor(public options: ServiceContextOptions, private parent?: ServiceContext) {
@@ -87,7 +87,7 @@ export class ServiceContext {
         return unit.instance;
     }
 
-    public add(ctor: any) {
+    public add(ctor: any): void {
 
         const identifier = this.options.discovery.getIdentifier(ctor);
 
@@ -96,7 +96,7 @@ export class ServiceContext {
         }
 
         if (this.services.has(identifier)) {
-            // tslint:disable-next-line:max-line-length
+            // eslint-disable-next-line max-len
             throw new CompositionError(`Duplicate services named '${identifier}' from '${identifier.debugInstanceToString()}' and '${this.services.getIdenifier(identifier).debugInstanceToString()} ' within the same scope`);
         }
 
@@ -238,7 +238,7 @@ export class ServiceContext {
 }
 
 export class StubServiceContext extends ServiceContext {
-    public addWithIdentity(key: string | symbol, instance: any) {
+    public addWithIdentity(key: string | symbol, instance: any): void {
         this.services.set(new DependencyIdentifier(key), new StubComposable(instance));
     }
 }
