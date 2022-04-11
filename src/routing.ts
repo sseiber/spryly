@@ -3,7 +3,7 @@ import { HapiPlugin } from './registration';
 import { applyWebsocketDecorators } from './websockets';
 
 const RouteDecoratorKey = Symbol('route');
-export type RouteMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'get' | 'post' | 'put' | 'delete' | 'head' | 'options';
+export type RouteMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'get' | 'post' | 'put' | 'patch' | 'delete' | 'head' | 'options';
 
 export interface RouteOptions {
     method?: '*' | RouteMethod | RouteMethod[];
